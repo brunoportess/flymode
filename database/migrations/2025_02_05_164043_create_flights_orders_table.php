@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('destination_id');
             $table->date('departure_date');
             $table->date('return_date');
-            $table->char('status', 1)->comment('S - solicitado, A - aprovado, C - cancelado');
-            $table->string('status_text', 20)->comment('solicitado, aprovado, cancelado');
+            $table->char('status_code', 1)->comment('S - solicitado, A - aprovado, C - cancelado');
+            $table->string('status', 20)->comment('solicitado, aprovado, cancelado');
             $table->timestamps();
         });
     }
