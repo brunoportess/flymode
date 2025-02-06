@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\FlightOrderService;
+use App\Services\FlightOrderServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ServicesServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class ServicesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CheckoutServiceInterface::class, CheckoutService::class);
+        $this->app->bind(FlightOrderServiceInterface::class, FlightOrderService::class);
     }
 
     /**

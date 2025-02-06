@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-class FlightOrderRepository
+class FlightOrderRepository implements FlightOrderRepositoryInterface
 {
 
 }

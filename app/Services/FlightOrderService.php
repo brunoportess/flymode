@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class FlightOrderService
+class FlightOrderService implements FlightOrderServiceInterface
 {
 
 }
