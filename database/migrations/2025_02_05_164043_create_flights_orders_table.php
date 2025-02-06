@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('flights_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('requesting_user_id');
+            $table->string('requesting_user');
             $table->unsignedBigInteger('destination_id');
             $table->date('departure_date');
             $table->date('return_date');
