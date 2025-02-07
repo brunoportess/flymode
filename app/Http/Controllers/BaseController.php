@@ -16,13 +16,21 @@ class BaseController
      */
     public function sendResponse($result, $message): \Illuminate\Http\JsonResponse
     {
+
+        if($result instanceof \Exception)
+        {
+            $message = $result->getMessage();
+            return response()->json(['success' => false, 'message' => $message, 'data' => null], 406, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
+        }
+
+
         $response = [
             'success' => true,
             'data'    => $result,
             'message' => $message,
         ];
 
-        return response()->json($response, 200);
+        return response()->json($response);
     }
 
     /**
