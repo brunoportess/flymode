@@ -88,4 +88,16 @@ class FlightOrderService implements FlightOrderServiceInterface
             return new \Exception($e->getMessage());
         }
     }
+
+    function statusUpdate($id, $status)
+    {
+        try {
+            $item = [
+                'status' => $status
+            ];
+            return $this->update($item, $id);
+        } catch (\Exception $e) {
+            return new \Exception($e->getMessage());
+        }
+    }
 }

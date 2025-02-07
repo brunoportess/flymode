@@ -11,5 +11,6 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('orders')->group(function () {
         Route::post('/', [\App\Http\Controllers\FlightOrderController::class, 'store']);
+        Route::put('/status/{id}', \App\Http\Controllers\StatusFlightOrderController::class);
     });
 });
