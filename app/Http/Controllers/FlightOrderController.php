@@ -41,7 +41,7 @@ class FlightOrderController extends BaseController
     function update($id, FlightOrderUpdateRequest $request)
     {
         $data = $request->validated();
-        $response = $this->flightOrderService->store($data);
+        $response = $this->flightOrderService->update($data, $id);
         return $this->sendResponse($response, 'Ordem atualizada com sucesso!');
     }
 
