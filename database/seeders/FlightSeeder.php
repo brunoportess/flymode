@@ -17,21 +17,23 @@ class FlightSeeder extends Seeder
     public function run(): void
     {
         FlightOrder::create([
-            'requesting_user_id' => 1,
-            'destination_id' => 1,
-            'departure_date' => Carbon::now()->addDays(5)->format("Y-m-d"),
-            'return_date' => Carbon::now()->addDays(10)->format("Y-m-d"),
-            'status' => 'S',
-            'status_text' => 'Solicitado',
+            'user_id' => 2,
+            'solicitante' => "Bruno Assis",
+            'destino' => "Belo Horizonte/MG",
+            'data_ida' => Carbon::now()->addDays(5)->format("Y-m-d"),
+            'data_volta' => Carbon::now()->addDays(10)->format("Y-m-d"),
+            'status_codigo' => 'A',
+            'status' => 'aprovado',
         ]);
 
         FlightOrder::create([
-            'requesting_user_id' => 1,
-            'destination_id' => 1,
-            'departure_date' => Carbon::now()->addDays(12)->format("Y-m-d"),
-            'return_date' => Carbon::now()->addDays(17)->format("Y-m-d"),
-            'status' => 'S',
-            'status_text' => 'Solicitado',
+            'user_id' => 1,
+            'solicitante' => "CEO Onfly",
+            'destino' => "Ipatinga/MG",
+            'data_ida' => Carbon::now()->addDays(12)->format("Y-m-d"),
+            'data_volta' => Carbon::now()->addDays(17)->format("Y-m-d"),
+            'status_codigo' => 'S',
+            'status' => 'solicitado',
         ]);
     }
 }

@@ -14,9 +14,15 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
-            'name' => 'Flight User',
-            'email' => 'flight@flight.com',
-            'password' => bcrypt('flight')
+            'name' => 'CEO Onfly',
+            'email' => 'ceo@onfly.com',
+            'password' => bcrypt('onfly')
+        ]);
+
+        User::factory()->create([
+            'name' => 'Bruno Assis',
+            'email' => 'bruno@onfly.com',
+            'password' => bcrypt('onfly')
         ]);
     }
 }

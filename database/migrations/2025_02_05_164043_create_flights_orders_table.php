@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('flights_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('requesting_user');
-            $table->unsignedBigInteger('destination_id');
-            $table->date('departure_date');
-            $table->date('return_date');
-            $table->char('status_code', 1)->comment('S - solicitado, A - aprovado, C - cancelado');
+            $table->unsignedBigInteger('user_id');
+            $table->string('solicitante')->index();
+            $table->string('destino');
+            $table->date('data_ida');
+            $table->date('data_volta');
+            $table->char('status_codigo', 1)->comment('S - solicitado, A - aprovado, C - cancelado')->index();
             $table->string('status', 20)->comment('solicitado, aprovado, cancelado');
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
