@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Flight User',
             'email' => 'flight@flight.com',
+            'password' => bcrypt('flight')
         ]);
     }
 }

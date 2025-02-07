@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class FlightOrder extends Model
 {
-    //
+    protected $table = 'flights_orders';
 }

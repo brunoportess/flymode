@@ -16,7 +16,7 @@ class FlightSeeder extends Seeder
      */
     public function run(): void
     {
-        FlightOrder::factory()->create([
+        FlightOrder::create([
             'requesting_user_id' => 1,
             'destination_id' => 1,
             'departure_date' => Carbon::now()->addDays(5)->format("Y-m-d"),
@@ -25,7 +25,7 @@ class FlightSeeder extends Seeder
             'status_text' => 'Solicitado',
         ]);
 
-        FlightOrder::factory()->create([
+        FlightOrder::create([
             'requesting_user_id' => 1,
             'destination_id' => 1,
             'departure_date' => Carbon::now()->addDays(12)->format("Y-m-d"),

@@ -14,10 +14,10 @@ class LocationSeeder extends Seeder
      */
     public function run(): void
     {
-        Location::factory()->create([
+        Location::create([
             'name' => 'Ipatinga/MG'
         ]);
-        Location::factory()->create([
+        Location::create([
             'name' => 'Belo Horizonte/MG'
         ]);
     }
