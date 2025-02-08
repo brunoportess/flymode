@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
+use App\Http\Resources\FlightOrderResource;
 use App\Services\FlightOrderServiceInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SearchFlightOrderController extends BaseController
@@ -15,10 +17,14 @@ class SearchFlightOrderController extends BaseController
         $this->flightOrderService = $flightOrderService;
     }
 
-    public function __invoke(SearchRequest $request)
+    /**
+     * @param SearchRequest $request
+     * @return JsonResponse
+     */
+    public function __invoke(SearchRequest $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();
         $response = $this->flightOrderService->busca($data);
-        return $this->sendResponse($response);
+        return $this->sendResponse(FlightOrderResource::collection($response));
     }
 }
