@@ -13,6 +13,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copia os arquivos do projeto para o container
 COPY . .
 
+# Garantir permissões corretas
+RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
+
 # Instala as dependências do Laravel
 RUN composer install --no-dev --optimize-autoloader
 
@@ -23,8 +26,6 @@ RUN cp .env.example .env
 # Gera a chave do aplicativo Laravel
 RUN php artisan key:generate
 
-# Rodar as migrações (criar banco de dados)
-RUN php artisan migrate --force
 
 # Inicia o PHP-FPM
 CMD ["php-fpm"]
