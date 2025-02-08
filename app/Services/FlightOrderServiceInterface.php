@@ -9,5 +9,7 @@ interface FlightOrderServiceInterface
     function store($request);
     function update($request, $id);
     function destroy($id);
-    function statusUpdate($id, $status);
+    function statusUpdate($item, $id, $status);
+    function getByStatus($status);
+    function busca($data);
 }

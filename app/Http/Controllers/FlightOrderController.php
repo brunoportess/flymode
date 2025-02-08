@@ -24,7 +24,8 @@ class FlightOrderController extends BaseController
 
     function find($id)
     {
-
+        $response = $this->flightOrderService->getById($id);
+        return $this->sendResponse($response);
     }
 
     /**
@@ -48,5 +49,12 @@ class FlightOrderController extends BaseController
     function destroy($id)
     {
 
+    }
+
+    function getByStatus($status)
+    {
+        $response = $this->flightOrderService->getByStatus($status);
+
+        return $this->sendResponse($response);
     }
 }

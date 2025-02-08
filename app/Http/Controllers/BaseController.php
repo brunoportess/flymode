@@ -11,10 +11,10 @@ class BaseController
      * success response method.
      *
      * @param $result
-     * @param $message
+     * @param string $message
      * @return JsonResponse
      */
-    public function sendResponse($result, $message): \Illuminate\Http\JsonResponse
+    public function sendResponse($result, string $message = 'OK'): \Illuminate\Http\JsonResponse
     {
 
         if($result instanceof \Exception)

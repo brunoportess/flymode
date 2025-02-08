@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class FlightOrderStatusRequest extends FormRequest
+class SearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,17 +22,16 @@ class FlightOrderStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', Rule::in(['aprovado', 'cancelado'])],
+            'destino' => 'nullable|string|max:255',
+            'data_inicial' => 'nullable|date',
+            'data_final' => 'nullable|date|after_or_equal:data_inicial',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'status.required' => 'O status é obrigatório.',
-            'status.in' => 'O status deve ser: aprovado ou cancelado.',
+            'data_final.after_or_equal' => 'A data final deve ser igual ou posterior à data inicial.',
         ];
     }
-
-
 }
