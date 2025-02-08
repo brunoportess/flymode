@@ -5,7 +5,7 @@ WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y unzip
 RUN apt-get install -y git curl
-RUN apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libmysqlclient-dev
+RUN apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev  libmariadb-dev-compat libmariadb-dev
 
 # Instala o Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
