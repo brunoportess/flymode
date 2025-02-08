@@ -43,6 +43,8 @@ class FlightOrderController extends BaseController
     {
         $data = $request->validated();
         $response = $this->flightOrderService->store($data);
+
+        //return $this->sendResponse($response, 'Ordem gerada com sucesso!');
         return $this->sendResponse(new FlightOrderResource($response), 'Ordem gerada com sucesso!');
     }
 

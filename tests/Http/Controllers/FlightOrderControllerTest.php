@@ -7,14 +7,13 @@ use App\Http\Requests\FlightOrderStoreRequest;
 use App\Http\Requests\FlightOrderUpdateRequest;
 use App\Models\FlightOrder;
 use App\Models\User;
-use App\Repository\FlightOrderRepositoryInterface;
-use App\Services\FlightOrderService;
 use App\Services\FlightOrderServiceInterface;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
 use Mockery;
-//use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
+
 
 class FlightOrderControllerTest extends TestCase
 {
@@ -48,49 +47,80 @@ class FlightOrderControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
     }
 
+    //ESSE TESTE AUTORIZA ACESSAR UMA ORDEM SE
+    // O ID DO USUARIO FOR O MESMO DO ID DE USUARIO DA ORDEM
     public function test_find_returns_order_when_user_is_authorized()
     {
-        $order = (object) ['id' => 1, 'user_id' => 1];
-
+        $order = FlightOrder::factory()->make();
+        $order->user_id = 99;
 
         $this->mockService->shouldReceive('getById')
             ->with(1)
             ->once()
             ->andReturn($order);
 
-        $this->actingAs((object) ['id' => 1]); // Simula usuário autenticado
+        $user = User::factory()->make();
+        $user->id = 99;
+        $this->actingAs($user); // Simula usuário autenticado
         $response = $this->controller->find(1);
-        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
+    // O TESTE VAI CRIAR UM USUARIO ID 99
+    // GERAR E SIMULAR BUSCAR UMA ORDEM DO USUARIO ID 1
+    // RETORNAR 401 REJEITANDO ACESSAR ORDEM DE OUTRO USUARIO
+    // AO REJEITAR O ACESSO, O TESTE É POSITIVO
     public function test_find_denies_access_to_other_users_order()
     {
-        $order = (object) ['id' => 1, 'user_id' => 2];
+        $user = User::factory()->make();
+        $user->id = 99;
+        $this->actingAs($user, 'sanctum'); // Ativando a autenticação para o usuário
 
+        // Mock do retorno do serviço getById
+        $flightOrderMock = FlightOrder::factory()->make();
+        $flightOrderMock->user_id = 1; // Simulando que a ordem pertence ao usuário com ID 1
 
+        // Mockando o método getById para retornar a ordem falsa
         $this->mockService->shouldReceive('getById')
-            ->with(1)
+            ->with(1)  // ID da ordem a ser buscada
             ->once()
-            ->andReturn($order);
+            ->andReturn($flightOrderMock);  // Retorna o mock da ordem
 
-        $this->actingAs((object) ['id' => 1]); // Simula usuário diferente
-        $response = $this->controller->find(1);
+        // Acessando a rota
+        $response = $this->getJson(route('orders.find', 1));
+
+        // Verificando se o código de status retornado é 401 (não autorizado)
         $this->assertEquals(401, $response->getStatusCode());
     }
 
     public function test_store_creates_order_successfully()
     {
-        $data = ['user_id' => 1, 'status' => 'solicitado'];
+        $dataItem = FlightOrder::factory()->make()->toArray();
 
-        $requestMock = Mockery::mock(FlightOrderStoreRequest::class);
-        $requestMock->shouldReceive('validated')->once()->andReturn($data);
+        $data = [
+            'destino' => $dataItem['destino'],
+            'data_ida' => $dataItem['data_ida'],
+            'data_volta' => $dataItem['data_volta']
+        ];
+
+
+        $request = new FlightOrderStoreRequest();
+        $request->merge($data); // Adiciona os dados simulados
+
+        $request->setContainer(app())->validateResolved();
+
+        $obj = new FlightOrder($dataItem);
+        // mockando ID e created_at para ser validado no Resource
+        $obj->created_at = Carbon::now();
+        $obj->id = 2;
 
         $this->mockService->shouldReceive('store')
             ->with($data)
             ->once()
-            ->andReturn((object) $data);
+            ->andReturn($obj);
 
-        $response = $this->controller->store($requestMock);
+        $response = $this->controller->store($request);
+
         $this->assertInstanceOf(JsonResponse::class, $response);
     }
 
