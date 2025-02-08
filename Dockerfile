@@ -18,4 +18,13 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
+# Caso você tenha um arquivo .env.example, pode copiar ele para .env
+RUN cp .env.example .env
+
+# Gera a chave do aplicativo Laravel
+RUN php artisan key:generate
+
+# Rodar as migrações (criar banco de dados)
+RUN php artisan migrate --force
+
 CMD ["php-fpm"]
