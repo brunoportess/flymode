@@ -78,7 +78,10 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
     function getByStatus($status)
     {
         try {
-            return $this->flightOrder->where('status', '=', $status)->get();
+            return $this->flightOrder
+                ->where('user_id', '=', auth()->user()->id)
+                ->where('status', '=', $status)
+                ->get();
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage());
         }
@@ -106,6 +109,9 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
                         ->orWhere('data_volta', '<=', $data['data_final']);
                 });
             }
+
+            //consulta somente as proprias ordens
+            $search = $search->where('user_id', '=', auth()->user()->id);
             return $search->get();
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage());

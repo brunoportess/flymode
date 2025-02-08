@@ -24,7 +24,12 @@ class FlightOrderController extends BaseController
 
     function find($id)
     {
+
         $response = $this->flightOrderService->getById($id);
+        if($response && $response->user_id !== auth()->user()->id)
+        {
+            return $this->sendError([], ['Você não pode acessar uma ordem de outro usuário!'], 401);
+        }
         return $this->sendResponse($response);
     }
 
@@ -42,6 +47,12 @@ class FlightOrderController extends BaseController
     function update($id, FlightOrderUpdateRequest $request)
     {
         $data = $request->validated();
+
+        $item = $this->flightOrderService->getById($id);
+        if($item && $item->user_id !== auth()->user()->id)
+        {
+            return $this->sendError([], ['Usuário autenticado não pode alterar ordem de outros usuários!'], 401);
+        }
         $response = $this->flightOrderService->update($data, $id);
         return $this->sendResponse($response, 'Ordem atualizada com sucesso!');
     }
@@ -53,6 +64,7 @@ class FlightOrderController extends BaseController
 
     function getByStatus($status)
     {
+
         $response = $this->flightOrderService->getByStatus($status);
 
         return $this->sendResponse($response);
