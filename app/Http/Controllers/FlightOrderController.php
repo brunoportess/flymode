@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FlightOrderStoreRequest;
 use App\Http\Requests\FlightOrderUpdateRequest;
+use App\Http\Resources\FlightOrderResource;
 use App\Services\FlightOrderServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class FlightOrderController extends BaseController
     function index()
     {
         $response = $this->flightOrderService->getAll();
+        return $this->sendResponse(FlightOrderResource::collection($response));
     }
 
     function find($id)
@@ -30,7 +32,7 @@ class FlightOrderController extends BaseController
         {
             return $this->sendError([], ['Você não pode acessar uma ordem de outro usuário!'], 401);
         }
-        return $this->sendResponse($response);
+        return $this->sendResponse(new FlightOrderResource($response));
     }
 
     /**
@@ -41,7 +43,7 @@ class FlightOrderController extends BaseController
     {
         $data = $request->validated();
         $response = $this->flightOrderService->store($data);
-        return $this->sendResponse($response, 'Ordem gerada com sucesso!');
+        return $this->sendResponse(new FlightOrderResource($response), 'Ordem gerada com sucesso!');
     }
 
     function update($id, FlightOrderUpdateRequest $request)
@@ -62,11 +64,15 @@ class FlightOrderController extends BaseController
 
     }
 
-    function getByStatus($status)
+    /**
+     * @param $status
+     * @return JsonResponse
+     */
+    function getByStatus($status): JsonResponse
     {
 
         $response = $this->flightOrderService->getByStatus($status);
 
-        return $this->sendResponse($response);
+        return $this->sendResponse(FlightOrderResource::collection($response));
     }
 }
