@@ -28,4 +28,6 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 # Definir o script como entrypoint
 ENTRYPOINT ["sh", "/usr/local/bin/docker-entrypoint.sh"]
 
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
 CMD ["php-fpm"]

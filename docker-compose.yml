@@ -29,7 +29,7 @@ services:
         ports:
             - "8000:80"
         volumes:
-            - ./public:/var/www/html
+            - .:/var/www
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - app
@@ -37,7 +37,7 @@ services:
             - laravel_network
 
     mariadb:
-        image: mariadb:latest
+        image: mariadb:10.6
         container_name: laravel_mariadb
         restart: always
         environment:
