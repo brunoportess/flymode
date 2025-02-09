@@ -69,6 +69,10 @@ class FlightOrderController extends BaseController
         {
             return $this->sendError([], ['Usuário autenticado não pode alterar ordem de outros usuários!'], 401);
         }
+        if($item->status != 'solicitado')
+        {
+            return $this->sendError([], ['Sua ordem já se encontra com status '.$item->status.' e não pode sofrer alterações!'], 401);
+        }
         $response = $this->flightOrderService->update($data, $id);
         return $this->sendResponse($response, 'Ordem atualizada com sucesso!');
     }
