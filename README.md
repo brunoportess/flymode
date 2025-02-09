@@ -2,15 +2,10 @@
 <div style="display: flex; justify-content: center;">
 <img loading="lazy" width="70" src="https://www.onfly.com.br/wp-content/uploads/2024/07/onfly-logo-azul-01-768x307-1.webp" />
 </div>
-<p style="text-align: center; font-size: 3em; font-weight: bold">
-Onfly Mode
-</p>
+
+# Onfly Mode
 
 Projeto de API em Laravel para gerencimanto de ordens de voo
-
-
-
-
 
 ## Configuração de ambiente
 Para executar localmente a aplicação, primeiramente certifique-se de possuir as ferramentas necessárias
