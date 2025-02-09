@@ -1,5 +1,8 @@
 
-# Onfly Mode Test
+<div style="display: flex; justify-content: center;">
+<img loading="lazy" width="70" src="https://www.onfly.com.br/wp-content/uploads/2024/07/onfly-logo-azul-01-768x307-1.webp" />
+</div>
+<p style="text-align: center; font-size: 2em; font-weight: bold">Onfly Mode</p>
 
 Projeto de API em Laravel para gerencimanto de ordens de voo
 
@@ -31,7 +34,14 @@ Em seguida, possuindo o docker instalado e configurado corretamente, acesse a pa
   cd flymode
   docker compose up --build
 ``` 
-_O parâmetro "--build" é utilizado para recriar as imagens e não aproveitar o cache_
+_O parâmetro "--build" é utilizado para recriar as imagens e não aproveitar o cache_  
+
+Após gerar os containers e o processo de build finalizar, será preciso iniciar os containers com os comandos abaixo
+```bash
+  docker start laravel_nginx
+  docker start laravel_app
+  docker start laravel_mariadb  
+  ```  
 
 Agora vamos acessar o container e executar os comandos base para gerar algumas informações na base de dados  
 Acesse o container com o comando abaixo
