@@ -84,7 +84,8 @@ Para executar os testes unitários, execute o comando a seguir
 ## Rotas da API
 
 Para acessar a documentação de rotas é necessário que você possua o postman instalado  
-Para instalar o Postman  [Clique aqui](https://www.postman.com/downloads)
+Para instalar o Postman  [Clique aqui](https://www.postman.com/downloads)  
+_A Collection possui variáveis configuradas para base URL das requisições e script na requisição de login para automaticamente inserir o token nas requisições_
 
 ### Documentação da API
 [Clique aqui](https://github.com/brunoportess/flymode/blob/main/Onfly.postman_collection.json) para acessar a collection do postman e fazer a importação
