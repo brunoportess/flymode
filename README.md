@@ -28,6 +28,7 @@ _OBS: Caso não tenha tornado o usuário docker como admin, é possível que sej
 
 Em seguida, possuindo o docker instalado e configurado corretamente, acesse a pasta do projeto e "suba" a aplicação
 ```bash
+  cd flymode
   docker compose up --build
 ``` 
 _O parâmetro "--build" é utilizado para recriar as imagens e não aproveitar o cache_
