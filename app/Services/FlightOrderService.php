@@ -4,6 +4,11 @@ namespace App\Services;
 
 use App\Repository\FlightOrderRepositoryInterface;
 use Carbon\Carbon;
+use MailerSend\Exceptions\MailerSendException;
+use MailerSend\Helpers\Builder\EmailParams;
+use MailerSend\Helpers\Builder\Personalization;
+use MailerSend\Helpers\Builder\Recipient;
+use MailerSend\MailerSend;
 
 class FlightOrderService implements FlightOrderServiceInterface
 {
@@ -99,14 +104,21 @@ class FlightOrderService implements FlightOrderServiceInterface
     function statusUpdate($item, $id, $status): mixed
     {
         try {
+
             if($this->changeStatusValidate($item, $status)) {
-                $item = [
+                $updateItem = [
                     'status' => $status
                 ];
-                return $this->update($item, $id);
+                $response = $this->update($updateItem, $id);
+                // se atualizou tudo certo, envia email de notificação
+                if($response) {
+                    $this->emailNotification($item->request_user->email, $id, $status);
+                }
+                return $response;
             }
             throw new \Exception("Não foi possível alterar o status do pedido");
         } catch (\Exception $e) {
+
             return new \Exception($e->getMessage());
         }
     }
@@ -171,5 +183,33 @@ class FlightOrderService implements FlightOrderServiceInterface
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+    private function emailNotification($email, $id, $status)
+    {
+        try {
+            $mailersend = new MailerSend(['api_key' => 'mlsn.0aac6f360c3ef2f6703ac516c4f468c8fced327df7157a8983040b3020f0249b']);
+            $personalization = [
+                new Personalization($email, [
+                    'status_text' => $status,
+                    'order_number' => $id
+                ])
+            ];
+            $recipients = [
+                new Recipient($email, 'Recipient'),
+            ];
+            $emailParams = (new EmailParams())
+                ->setFrom('test@trial-pxkjn41v8594z781.mlsender.net')
+                ->setFromName('Bruno')
+                ->setRecipients($recipients)
+                ->setSubject('Atualzação de status')
+                ->setTemplateId('z3m5jgr1mvd4dpyo')
+                ->setPersonalization($personalization);
+
+            $mailersend->email->send($emailParams);
+        } catch (MailerSendException $e) {
+            throw new \Exception($e->getMessage());
+        }
+
     }
 }

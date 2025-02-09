@@ -31,11 +31,15 @@ class StatusFlightOrderController extends BaseController
         $item = $this->flightOrderService->getById($id);
 
         // VERIFICA SE O USUARIO AUTENTICADO TENTA MUDAR O PROPRIO PEDIDO
-        if($item && $item->user_id == $user->id)
+        if($item)
         {
-            return $this->sendError([], ['Usuário solicitante não pode alterar status do próprio pedido!'], 401);
+            if($item->user_id == $user->id) {
+                return $this->sendError([], ['Usuário solicitante não pode alterar status do próprio pedido!'], 401);
+            }
+            $response = $this->flightOrderService->statusUpdate($item, $id, $data['status']);
+            return $this->sendResponse($response, 'Status alterado com sucesso!');
         }
-        $response = $this->flightOrderService->statusUpdate($item, $id, $data['status']);
-        return $this->sendResponse($response, 'Status alterado com sucesso!');
+        return $this->sendError('Ordem não encontrada!', ['Ordem não encontrada!'], 204);
+
     }
 }

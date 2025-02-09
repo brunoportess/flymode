@@ -20,4 +20,9 @@ class FlightOrder extends Model
         'status_codigo',
         'status',
     ];
+
+    function request_user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
