@@ -43,7 +43,7 @@ class AuthController extends BaseController
             $user = Auth::user();
             $success['token'] =  $user->createToken('onflymode')->plainTextToken;
             $success['name'] =  $user->name;
-            $success['expires_at'] =  Carbon::now()->addMinute($expiration)->toDateTimeString();
+            $success['expires_at'] =  Carbon::now()->addMinutes($expiration)->toDateTimeString();
 
             return $this->sendResponse($success, 'User login successfully.');
         }
