@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\FlightOrder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class FlightOrderRepository implements FlightOrderRepositoryInterface
@@ -14,7 +15,10 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
         $this->flightOrder = $flightOrder;
     }
 
-    function getAll()
+    /**
+     * @return mixed
+     */
+    function getAll(): mixed
     {
         try {
             return $this->flightOrder->get();
@@ -23,7 +27,11 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
         }
     }
 
-    function getById($id)
+    /**
+     * @param $id
+     * @return mixed
+     */
+    function getById($id): mixed
     {
         try {
             return $this->flightOrder->find($id);
@@ -32,7 +40,11 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
         }
     }
 
-    function store($request)
+    /**
+     * @param $request
+     * @return mixed
+     */
+    function store($request): mixed
     {
         try {
             $request['status_codigo'] = $this->getStatusCode($request['status']);
@@ -42,7 +54,12 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
         }
     }
 
-    function update($request, $id)
+    /**
+     * @param $request
+     * @param $id
+     * @return mixed
+     */
+    function update($request, $id): mixed
     {
         try {
             $request['status_codigo'] = $this->getStatusCode($request['status']);
@@ -75,7 +92,11 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
         return strtoupper(substr(trim($status), 0, 1));
     }
 
-    function getByStatus($status)
+    /**
+     * @param $status
+     * @return mixed
+     */
+    function getByStatus($status): mixed
     {
         try {
             return $this->flightOrder
@@ -87,7 +108,11 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
         }
     }
 
-    function busca($data)
+    /**
+     * @param $data
+     * @return Collection
+     */
+    function busca($data): \Illuminate\Database\Eloquent\Collection
     {
 
         try {

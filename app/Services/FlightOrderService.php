@@ -90,7 +90,13 @@ class FlightOrderService implements FlightOrderServiceInterface
         }
     }
 
-    function statusUpdate($item, $id, $status)
+    /**
+     * @param $item
+     * @param $id
+     * @param $status
+     * @return \Exception|mixed
+     */
+    function statusUpdate($item, $id, $status): mixed
     {
         try {
             if($this->changeStatusValidate($item, $status)) {
@@ -139,7 +145,12 @@ class FlightOrderService implements FlightOrderServiceInterface
         return false;
     }
 
-    function getByStatus($status)
+    /**
+     * @param $status
+     * @return mixed
+     * @throws \Exception
+     */
+    function getByStatus($status): mixed
     {
         try {
             return $this->flightOrderRepository->getByStatus($status);
@@ -148,7 +159,12 @@ class FlightOrderService implements FlightOrderServiceInterface
         }
     }
 
-    function busca($data)
+    /**
+     * @param $data
+     * @return mixed
+     * @throws \Exception
+     */
+    function busca($data): mixed
     {
         try {
             return $this->flightOrderRepository->busca($data);

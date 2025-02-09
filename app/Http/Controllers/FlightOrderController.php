@@ -18,13 +18,20 @@ class FlightOrderController extends BaseController
         $this->flightOrderService = $flightOrderService;
     }
 
-    function index()
+    /**
+     * @return JsonResponse
+     */
+    function index(): JsonResponse
     {
         $response = $this->flightOrderService->getAll();
         return $this->sendResponse(FlightOrderResource::collection($response));
     }
 
-    function find($id)
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    function find($id): JsonResponse
     {
 
         $response = $this->flightOrderService->getById($id);
@@ -48,7 +55,12 @@ class FlightOrderController extends BaseController
         return $this->sendResponse(new FlightOrderResource($response), 'Ordem gerada com sucesso!');
     }
 
-    function update($id, FlightOrderUpdateRequest $request)
+    /**
+     * @param $id
+     * @param FlightOrderUpdateRequest $request
+     * @return JsonResponse
+     */
+    function update($id, FlightOrderUpdateRequest $request): JsonResponse
     {
         $data = $request->validated();
 
@@ -61,9 +73,14 @@ class FlightOrderController extends BaseController
         return $this->sendResponse($response, 'Ordem atualizada com sucesso!');
     }
 
-    function destroy($id)
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    function destroy($id): JsonResponse
     {
-
+        $response = $this->flightOrderService->destroy($id);
+        return $this->sendResponse(new FlightOrderResource($response));
     }
 
     /**

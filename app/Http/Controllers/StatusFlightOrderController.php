@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FlightOrderStatusRequest;
 use App\Services\FlightOrderServiceInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class StatusFlightOrderController extends BaseController
@@ -18,7 +19,12 @@ class StatusFlightOrderController extends BaseController
         $this->flightOrderService = $flightOrderService;
     }
 
-    public function __invoke($id, FlightOrderStatusRequest $request)
+    /**
+     * @param $id
+     * @param FlightOrderStatusRequest $request
+     * @return JsonResponse
+     */
+    public function __invoke($id, FlightOrderStatusRequest $request): JsonResponse
     {
         $data = $request->all();
         $user = auth()->user();
