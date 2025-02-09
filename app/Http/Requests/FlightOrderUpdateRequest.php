@@ -23,24 +23,17 @@ class FlightOrderUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //'solicitante' => 'required|string|max:255',
-            'destino' => 'required|string|max:255',
-            'data_ida' => 'required|date|after_or_equal:today',
-            'data_volta' => 'nullable|date|after:data_ida',
-            //'status' => ['required', Rule::in(['solicitado', 'aprovado', 'cancelado'])],
+            'destino' => 'string|max:255',
+            'data_ida' => 'date|after_or_equal:today',
+            'data_volta' => 'date|after_or_equal:today',
         ];
     }
 
     public function messages(): array
     {
         return [
-            //'solicitante.required' => 'O nome do solicitante é obrigatório.',
-            'destino.required' => 'O destino é obrigatório.',
-            'data_ida.required' => 'A data de ida é obrigatória.',
             'data_ida.after_or_equal' => 'A data de ida deve ser hoje ou uma data futura.',
             'data_volta.after' => 'A data de volta deve ser posterior à data de ida.',
-            //'status.required' => 'O status é obrigatório.',
-            //'status.in' => 'O status deve ser: S - solicitado, A - aprovado ou C - cancelado.',
         ];
     }
 
