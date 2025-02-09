@@ -62,7 +62,10 @@ class FlightOrderRepository implements FlightOrderRepositoryInterface
     function update($request, $id): mixed
     {
         try {
-            $request['status_codigo'] = $this->getStatusCode($request['status']);
+            if(array_key_exists("status", $request)) {
+                $request['status_codigo'] = $this->getStatusCode($request['status']);
+            }
+
             return $this->flightOrder->where('id', '=', $id)->update($request);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage());

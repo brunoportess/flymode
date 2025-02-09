@@ -65,6 +65,7 @@ class FlightOrderController extends BaseController
         $data = $request->validated();
 
         $item = $this->flightOrderService->getById($id);
+
         if($item && $item->user_id !== auth()->user()->id)
         {
             return $this->sendError([], ['Usuário autenticado não pode alterar ordem de outros usuários!'], 401);
