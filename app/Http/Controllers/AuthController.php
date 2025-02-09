@@ -24,7 +24,7 @@ class AuthController extends BaseController
         $input = $request->validated();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('onflymode')->plainTextToken;
+        $success['id'] =  $user->id;
         $success['name'] =  $user->name;
 
         return $this->sendResponse($success, 'User register successfully.');
