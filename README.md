@@ -1,66 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Onfly Mode Test
 
-## About Laravel
+Projeto de API em Laravel para gerencimanto de ordens de voo
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Configuração de ambiente
+Para executar localmente a aplicação, primeiramente certifique-se de possuir as ferramentas necessárias
+- Ambiente Windows com WSL2 ativo ou algum OS Linux
+  > OBS: Em caso de uso do WSL2, para maior performance, recomendo acessar a distribuição e realizar a instalação como ambiente Linux e evitar o uso do "Docker Desktop" devido ao seu alto consumo de hardware
+- Instalar o Git [Clique aqui](https://git-scm.com/downloads)
+- Instalar o Docker [Clique aqui](https://docs.docker.com/engine/install)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+## Instalação
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Primeiramente, após ter o git instalado, realize o clone do repositório
 
-### Premium Partners
+```
+  git clone https://github.com/brunoportess/flymode.git
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+_OBS: Caso não tenha tornado o usuário docker como admin, é possível que seja necessário que você utilize o "sudo" no início dos comandos_
 
-## Contributing
+Em seguida, possuindo o docker instalado e configurado corretamente, acesse a pasta do projeto e "suba" a aplicação
+```bash
+  docker compose up --build
+``` 
+_O parâmetro "--build" é utilizado para recriar as imagens e não aproveitar o cache_
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Agora vamos acessar o container e executar os comandos base para gerar algumas informações na base de dados  
+Acesse o container com o comando abaixo
+```bash
+  docker exec -it laravel_app bash
+  ```
+Agora vamos executar as migrations para criar nossas tabelas
+  ```bash
+  php artisan migrate
+  ```
+Em seguida, vamos executar as seeds para gerar alguns dados de demonstração
+  ```bash
+  php artisan db:seed
+```
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Acessando a aplicação
+Url para acessar a aplicação no browser ou utilizar as requisições
+```
+  http://localhost:8000
+``` 
+Dados acessar a base de dados
+```
+  HOST: localhost
+  PORTA: 3307
+  USUARIO: onfly
+  SENHA: onfly
+``` 
+## Executando os testes unitários
+Primeiramente, acesse o container para que possa executar os comandos da aplicação
+```bash
+  docker exec -it laravel_app bash
+```
 
-## Security Vulnerabilities
+Para executar os testes unitários, execute o comando a seguir
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+  php artisan test --filter FlightOrderControllerTest
+```
+> A opção --filter especifica o teste a ser executado
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Rotas da API
+
+Para acessar a documentação de rotas é necessário que você possua o postman instalado  
+Para instalar o Postman  [Clique aqui](https://www.postman.com/downloads)
+
+### Documentação da API
+[Clique aqui](https://github.com/brunoportess/flymode/blob/main/Onfly.postman_collection.json) para acessar a collection do postman e fazer a importação
+
+
+
+## Observações técnicas
+
+### Controller de busca com filtros _SearchFlightOrderController_
+
+Controller gerada para responsabilidade única pensando em criação de microsserviço próprio juntamente com o uso de dados em cache para alta performance em resposta de utilização para relatórios ou fins similares
+
+### Controller de atualização de status de ordem _StatusFlightOrderController_
+Assim como a controller anterior para otimização de usabilidade, a controller de atualização de status poderia ter uma finalidade similar para evitar sobrecarga de atualização da base de dados e trabalhar em conjunto com serviço de fila e pacotes para balancear a carga na base de dados
+
+### Validações de dados
+Foi utilizado a criação de Request's customizados para validação dos dados recebidos pelos endpoints
+
+### Tratativa de regras para atualização de status
+Na camada service "FlightOrderService" no método "changeStatusValidate" foi feito implementações de checagem para que ao aprovar ou cancelar uma ordem seja verificado situações de diferença de tempo para aprovação e ordem de atualização de status, por exemplo, rejeitar a aprovação de uma ordem cancelada
+
