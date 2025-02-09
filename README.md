@@ -89,8 +89,15 @@ Para instalar o Postman  [Clique aqui](https://www.postman.com/downloads)
 ### Documentação da API
 [Clique aqui](https://github.com/brunoportess/flymode/blob/main/Onfly.postman_collection.json) para acessar a collection do postman e fazer a importação
 
-
-
+## Como usar
+- Primeiro utilize o endpoint para registrar um novo usuário com EMAIL VÁLIDO
+- Em seguida, faça a autenticação com este usuário gerado
+- Depois crie uma ordem.  
+_Recomendo informar as datas não próximas a data atual devido as regras contidas no backend para bloquear cancelamento em cim a da hora de uma ordem aprovada_
+- Agora para poder alterar o status da ordem é necessário utilizar um usuário diferente. Para isso, faça a autenticação com o email "ceo@onfly.com" e senha "onfly"  
+_Este email e senha foi gerado ao executar o comando de db:seed na etapa de instalação/configuração. Caso queira criar e utilizar um novo usuário também irá funcionar_
+- Utilize o endpoint de "Atualizar Status Ordem" para alterar o status da nova ordem para "aprovado" ou "cancelado"  
+_Assim que a ordem receber atualização de status, um email de notificação de alteração do status será enviado para o email do usuário que criou a ordem_
 ## Observações técnicas
 
 ### Controller de busca com filtros _SearchFlightOrderController_
